@@ -63,7 +63,7 @@ art_bagian_2 = r"""
 ⠀⢸⠀⡼⠀⣀⡼⠀⡎⡰⠋⣴⠉⣽⠇⢈⣦⢸⡿⠀⣽⡆⣿⠃⣼⠏⢠⠋⠈⢆⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀
 ⠀⡇⠀⣋⡩⢴⠆⢰⡷⢁⣾⠃⢸⠏⢠⣯⠇⣼⠇⣼⡜⢠⣿⠠⠋⠀⡇⠀⠀⠈⢦⡀⠀⠀⠀⢀⢼⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡜
 ⢸⠀⡞⠀⠀⢸⣀⡌⣇⠸⣣⢧⣩⡆⡬⠥⠞⡿⢰⠤⠴⠃⠘⠒⡏⢸⠀⠀⠀⠀⠀⠙⡶⠖⠊⠁⠀⣆⠀⠀⠀⠀⠀⠀⠀⢀⠞⠀
-⠁⠀⠀⠀⠀⠀⠈⠉⠀⠀⢸⢠⠃⠀⠀⠇⡎⠀⠸⡝⠦⠴⢃⡾⠀⠀⠀⠀⠀⡾⠁⠀⠀⠀⠀⠘⢦⡀⠀⢀⣠⠤⠚⠁⠀⠀
+⢰⠁⠀⠀⠀⠀⠀⠈⠉⠀⠀⢸⢠⠃⠀⠀⠇⡎⠀⠸⡝⠦⠴⢃⡾⠀⠀⠀⠀⠀⡾⠁⠀⠀⠀⠀⠘⢦⡀⠀⢀⣠⠤⠚⠁⠀⠀
 ⠉⠁⠀⠀⠀⣠⠔⠒⠒⠢⣄⠀⣏⣸⠀⠀⠸⣄⣧⣤⡀⠈⡳⢻⡍⠀⠀⠀⠀⢀⣸⠃⠀⠀⠀⠀⠀⢀⡼⠋⠉⣩⣄⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⢸⠁⣠⠒⠒⣲⠈⣦⠈⠁⠀⢀⡤⠤⠞⠀⠛⠚⠡⡎⠀⠀⠀⠀⡼⢉⡟⠀⠀⠀⠀⠀⢠⡞⠀⠀⡼⠁⣸⠃⠀⠀⠀⠀
 ⠀⠀⠀⢀⡇⢀⣃⣠⠞⣁⠼⡵⠒⣦⠤⣌⣗⣲⠃⡜⢩⠃⡞⣀⠀⠀⠀⢰⠁⡜⠀⡀⠀⠀⠀⢠⠟⠀⠀⢰⠃⢠⠃⠀⠀⠀⠀⠀
@@ -85,7 +85,7 @@ art_bagian_3 = r"""
 ⠀⠀⠀⠀⠀⠀⡤⠀⢰⢮⡼⣽⣾⡷⡟⠛⠁⡠⡆⢕⡤⠛⠁⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠐⠀⢰⣱⠈⡸⣤⣿⣿⣿⣿⢛⣍⢥⡚⡉⢫⠟⣛⣍⣻⣷⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⡜⠀⡀⢹⣸⡵⣻⡟⠛⠊⠘⠀⣵⠼⠊⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢆⣤⣽⠿⡂⠊⠱⣬⠸⢪⢪⢦⢣⡀⠙⣾⡷⣭⣇⠀⠀⠀
 ⠀⠀⠀⠀⠄⡇⠀⣿⣤⡟⡟⡿⡄⠤⢘⠜⣘⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠠⣀⡼⠿⠿⠟⠀⠄⠀⠧⢣⣿⠟⣿⢟⣼⢠⠀⢛⣿⣤⢻⡄⢠⠀
-⠀⠀⠀⠈⢠⠁⢮⢯⠛⡗⣵⣻⡀⠸⡁⢐⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠒⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣕⣢⣳⢻⣝⣞⢀⠀⠸⣝⣉⠆⠡
+⠀⠀⠀⠈⢠⠁⢮⢯⠛⡗⣵⣻⡀⠸⡁⢐⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠒⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣕⣢⣳⢻⣝⣞⢀⠀⠸⣝⢋⣉⠆⠡
 ⠀⢀⡔⡀⠄⠀⣾⢕⡼⢸⣥⢻⡀⠘⠉⢩⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣴⣿⣄⣶⣦⣤⣦⡌⣦⣤⢊⣡⣤⣄⣀⣀⢀⠀⠀⠀⠈⠑⢉⠁⢈⠡⡋⠀⣠⠾⣷⡡⢎⡥
 ⠀⢠⠔⠁⠁⠀⠘⢗⢿⡏⢾⢹⠃⠰⠪⠉⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣬⣡⣀⠉⠙⠛⠓⠛⠿⣧⣷⣫⣻⵵⡻⠻⠯⢾⣿⣲⣶⣴⢞⣠⡄⢸⣇⡻⡾⣝⣳⠼
 ⠀⠀⠿⣠⡀⢆⠀⠘⣖⠄⣢⡡⢦⠗⠂⠌⠑⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣷⣟⣎⣷⢖⡄⡤⣀⠀⠀⠈⠙⠁⠀⠠⠼⡁⡵⢣⠏⡞⠇⠋⠓⠸⣽⡿⣽⣳⢯⣟
@@ -201,12 +201,10 @@ class KembangApiCanvas(tk.Canvas):
         if not self.is_running:
             return
         
-        # Buat titik pusat letupan acak di layar
         cx = random.randint(100, self.winfo_width() - 100)
         cy = random.randint(100, self.winfo_height() - 200)
         warna = random.choice(self.colors)
         
-        # Buat partikel-partikel percikan
         for _ in range(random.randint(30, 50)):
             angle = random.uniform(0, 2 * math.pi)
             speed = random.uniform(2, 8)
@@ -221,14 +219,13 @@ class KembangApiCanvas(tk.Canvas):
         if not self.is_running:
             return
         
-        # Munculkan meletupan kembang api secara berkala
         if random.random() < 0.25:
             self.buat_meletup()
 
         sisa_partikel = []
         for p in self.particles:
             self.move(p['id'], p['vx'], p['vy'])
-            p['vy'] += 0.15 # Efek gravitasi jatuh
+            p['vy'] += 0.15 # Gravitasi
             p['life'] -= 1
             
             if p['life'] > 0:
@@ -248,12 +245,12 @@ def tampilkan_gui():
     root.attributes('-fullscreen', True)
     root.configure(bg="#0b0e14")
 
-    # Fungsi Keluar Aplikasi
+    # Fungsi Keluar Aplikasi (Tekan ENTER / ESC)
     def keluar_app(event=None):
         root.destroy()
 
     root.bind("<Escape>", keluar_app)
-    root.bind("<Return>", keluar_app) # Tombol Enter untuk Keluar
+    root.bind("<Return>", keluar_app)
 
     # Header Atas
     header_frame = tk.Frame(root, bg="#0b0e14")
@@ -309,11 +306,9 @@ def tampilkan_gui():
         status_frame.pack_forget()
         card_container.pack_forget()
 
-        # Canvas Kembang Api Full Screen
         cv = KembangApiCanvas(root, bg="#05070a", highlightthickness=0)
         cv.pack(fill=tk.BOTH, expand=True)
 
-        # Teks Ucapan Tengah Layar
         txt_hbd = tk.Label(
             cv, 
             text="✨ HAPPY BIRTHDAY BIBUB ✨\n❤️ I LOVE YOU SO MUCH ❤️", 
@@ -323,7 +318,6 @@ def tampilkan_gui():
         )
         txt_hbd.place(relx=0.5, rely=0.45, anchor="center")
 
-        # Petunjuk Tekan ENTER / ESC
         txt_info = tk.Label(
             cv, 
             text="👉 [ TEKAN ENTER DI KEYBOARD UNTUK KELUAR ] 👈", 
@@ -338,7 +332,6 @@ def tampilkan_gui():
     # Logika Jawaban Pilihan
     def jawab(pilihan):
         if pilihan in [1, 3]:
-            # Munculkan Kembang Api
             munculkan_kembang_api()
         else:
             label_status.config(
@@ -364,16 +357,21 @@ def tampilkan_gui():
     card3 = buat_kartu_pilihan(card_container, "3", "Denda Boba / Seblak", "Boleh dimaafin tapi wajib kulineran! 🧋✨", "#1f6feb", lambda: jawab(3))
     card3.grid(row=0, column=2, padx=10, pady=12)
 
-    # --- ANIMASI ASCII SCROLL ---
+    # --- ANIMASI SCROLL LAMBAT DENGAN JEDA 2 DETIK PER BAGIAN ---
     def mulai_animasi():
-        full_ascii = (
-            art_banner + "\n\n" + art_bagian_1 + "\n\n" +
-            art_bagian_2 + "\n\n" + art_bagian_3 + "\n\n" + art_bagian_4
-        )
-        for line in full_ascii.split("\n"):
-            txt_area.insert(tk.END, line + "\n")
-            txt_area.see(tk.END)
-            time.sleep(0.01)
+        daftar_bagian = [art_banner, art_bagian_1, art_bagian_2, art_bagian_3, art_bagian_4]
+
+        for index, bagian in enumerate(daftar_bagian):
+            for line in bagian.strip('\n').split('\n'):
+                txt_area.insert(tk.END, line + "\n")
+                txt_area.see(tk.END)
+                time.sleep(0.025)  # Kecepatan scroll dibuat santai/lambat
+
+            txt_area.insert(tk.END, "\n\n")
+            
+            # Beri jeda 2 detik per gambar (kecuali gambar terakhir) biar sempat dilihat
+            if index < len(daftar_bagian) - 1:
+                time.sleep(2.0)
 
         txt_area.configure(state='disabled')
         label_status.config(
