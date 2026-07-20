@@ -2,59 +2,10 @@ import time
 import sys
 import os
 import random
-import ctypes
+import tkinter as tk
+from tkinter import scrolledtext, messagebox
 
-# 1. Otomatis Fullscreen di CMD Windows
-if os.name == 'nt':
-    try:
-        kernel32 = ctypes.WinDLL('kernel32', use_last_error=True)
-        user32 = ctypes.WinDLL('user32', use_last_error=True)
-        hwnd = kernel32.GetConsoleWindow()
-        if hwnd:
-            user32.ShowWindow(hwnd, 3) # 3 = SW_MAXIMIZE
-    except Exception:
-        pass
-
-    # Paksa Windows CMD pakai code page UTF-8
-    os.system('chcp 65001 > nul')
-
-def print_utf8(teks):
-    """Pencetak teks langsung dalam format byte UTF-8 biar anti kotak-kotak & super cepat"""
-    try:
-        sys.stdout.buffer.write((teks + '\n').encode('utf-8'))
-        sys.stdout.buffer.flush()
-    except Exception:
-        print(teks)
-
-def cetak_ascii_smooth(ascii_text, jeda_baris=0.005):
-    for baris in ascii_text.split('\n'):
-        print_utf8(baris)
-        time.sleep(jeda_baris)
-
-def ketik_efek(teks, kecepatan=0.03):
-    for karakter in teks:
-        try:
-            sys.stdout.buffer.write(karakter.encode('utf-8'))
-            sys.stdout.buffer.flush()
-        except Exception:
-            sys.stdout.write(karakter)
-            sys.stdout.flush()
-        time.sleep(kecepatan)
-    print()
-
-def animasi_hati_berkelip(ascii_text):
-    os.system('cls' if os.name == 'nt' else 'clear')
-    symbols = ['✨', '⭐', '❤️', '💖', '💕', '🌸', '  ', '  ']
-    lines = ascii_text.strip('\n').split('\n')
-    
-    print("\n" * 2)
-    for line in lines:
-        hiasan_kiri = "".join(random.choice(symbols) for _ in range(3))
-        hiasan_kanan = "".join(random.choice(symbols) for _ in range(3))
-        print_utf8(f"  {hiasan_kiri}   {line}   {hiasan_kanan}")
-    
-    print_utf8("\n" + " " * 15 + "✨ ⭐ ❤️  HAPPY BIRTHDAY BIBUB  ❤️ ⭐ ✨")
-    print_utf8("\n" + " " * 12 + "👉 [ Tekan ENTER di keyboard untuk keluar ] 👈")
+# --- ASCII ART LENGKAP KAMU ---
 
 art_banner = r"""
  _________                                     ________  .__    .___      __   __          
@@ -63,17 +14,6 @@ art_banner = r"""
 /        \/ __ \\___  | / __ \|   |  \/ /_/  >    |    `   \  / /_/ |  |  /|  | |    <|  |  /
 /_______  (____  / ____|(____  /___|  /\___  /    /_______  /__\____ |____/ |__| |__|_ \____/ 
         \/     \/\/          \/     \//_____/             \/        \/                \/     
-"""
-
-art_akhir = r"""
- (`-').->(`-')  _           (`-')  _ <-. (`-')    (`-')  _ (`-')                               (`-')  _ <-. (`-')_                 (`-')     (`-')  _  (`-').->            <-. (`-')_ 
- ( OO)_  ( OO).-/  <-.     (OO ).-/    \(OO )_  (OO ).-/ ( OO).->            .->      <-.     (OO ).-/    \( OO) )    .->         ( OO).->  (OO ).-/  (OO )__      .->      \( OO) )
-(_)--\_)(,------.,--. )    / ,---.  ,--./  ,-.) / ,---.  /    '._      ,--.(,--.   ,--. )    / ,---.  ,--./ ,--/  ,---(`-')    /    '._  / ,---.  ,--. ,'-',--.(,--.  ,--./ ,--/ 
-/    _ / |  .---'|  (`-') | \ /`.\ |   `.'    | | \ /`.\ |'--...__)    |  | |(`-') |  (`-') | \ /`.\ |   \ |  | '  .-(OO )    |'--...__)| \ /`.\ |  | |  ||  | |(`-')|   \ |  | 
-\_..`--.(|  '--. |  |OO ) '-'|_.' ||  '.'|  | '-'|_.' |`--.  .--'    |  | |(OO ) |  |OO ) '-'|_.' ||  . '|  |)|  | .-, \    `--.  .--''-'|_.' ||  `-'  ||  | |(OO )|  . '|  |)
-.-._)    \|  .--'(|  '__ |(|  .-.  ||  |   |  |(|  .-.  |   |  |        |  | | |  \(|  '__ |(|  .-.  ||  |\    | |  | '.(_/        |  |    (|  .-.  ||  .-.  ||  | | |  \|  |\    | 
-\        /|  `---.|     |' |  | |  ||  |   |  | |  | |  |   |  |        \  '-'(_ .' |     |' |  | |  ||  | \   | |  '-'  |        |  |    |  | |  ||  | |  |\  '-'(_ .'|  | \   | 
- `-----'  `------'`-----'  `--' `--'`--'   `--' `--' `--'   `--'         `-----'    `-----'  `--' `--'`--'  `--'  `-----'          `--'    `--' `--'`--' `--' `-----'   `--'  `--' 
 """
 
 art_bagian_1 = r"""
@@ -160,13 +100,13 @@ art_bagian_3 = r"""
 ⠀⡀⢤⠌⣦⡐⣄⡀⠐⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⡱⠀⠀⠁⠒⢲⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⠮⣤⣀⠀⠀⠀⢂⠀⠀⡤⠞⢿⣿⣿⣇⠀⠀⠀⠀⠀⠀
 ⠀⢨⡄⢹⣾⢳⢹⠘⠂⠀⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢺⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣯⣶⣿⣿⡟⣾⣵⢣⠀⣴⠁⠋⢡⢠⣾⣿⠛⠁⠀⠀⠀⠀⠀⢠
 ⠀⠀⠫⠒⠪⣳⣙⢷⡇⠱⠶⠀⠀⠀⠠⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣳⣟⣿⢖⣾⣷⡮⣾⠀⠀⢀⣤⣦⣜⣻⢯⣳⠀⠀⠀⠀⠀⢀⡾
-⠀⠀⠀⠀⠈⠐⠉⠄⠐⠣⢎⣽⠓⠲⠤⡀⠀⠤⠀⢀⠀⠀⠀⠀⠀⠀⠀⢀⣿⡿⣟⡿⣟⡿⢿⡿⡿⠿⡿⣿⣷⣯⣿⣳⣺⠷⣎⢀⣤⣾⡿⢿⣿⣯⡅⣶⡇⠀⠀⠊⣰⣏⠞
-⠀⠀⠀⠀⠀⠀⠀⠨⡑⠠⢤⢏⡀⠐⢤⣅⠻⢀⡀⡀⠀⠁⠂⠀⠀⠀⠂⣠⣿⣻⣝⡻⡜⡣⠃⠩⠥⣅⠂⠀⠂⢭⢉⠙⣿⣀⣾⣿⣿⣯⣕⡟⠓⢠⡿⢋⡡⠀⣠⣾⡿⠊⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠁⣇⠈⠑⢦⣬⡟⣛⢧⣄⡠⢧⣴⡮⠀⠒⣖⣫⡷⢣⠚⠻⠟⠃⠘⡀⠀⢂⣧⢼⡿⣟⣽⠧⣾⡎⢽⢟⣋⠧⣾⠋⢀⣴⣫⠟⢁⣤⣾⠟⠁⠀⠀⠀
-⠀⠀⠀⠀⠑⢄⡀⠀⠀⠀⠀⠀⠉⠚⠒⠦⠃⡌⣤⣬⡍⣻⢾⣹⠏⠛⠻⢿⡿⣀⠀⠀⢀⣀⡀⠀⠀⠍⣨⢿⠃⠌⠣⣦⢚⠏⠉⠀⠀⠛⠋⠘⠛⡀⣀⣴⠿⠉⠀⢀⠀⠀⠀⠂
-⠀⠀⠀⠀⠀⠈⡈⠑⠤⣀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠻⠋⢍⠷⠣⡾⣿⢩⣽⠾⠍⠫⠭⢽⡷⠁⠀⠀⠐⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣢⣼⡾⠟⠉⠀⠀⠀⠀⠀⠀⠀⠀
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠲⠤⢀⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠈⠉⠀⠀⠀⠀⠍⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣤⠶⠞⠛⠉⠁⠀⠀⠀⠀⠀⠀⠀⣀⣤⢶⠛
-⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⠂⡐⠠⠄⢄⣀⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣀⣀⣠⡤⢴⠶⠛⠋⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣠⣴⡿⠻⠉⠀⠀
+⠀⠀⠀⠀⠈⠐⠉⠄⠐⠣⢎⣽⠓⠲⠤⡀⠀⠤___⢀⠀⠀⠀⠀⠀⠀⠀⢀⣿⡿⣟⡿⣟⡿⢿⡿⡿⠿⡿⣿⣷⣯⣿⣳⣺⠷⣎⢀⣤⣾⡿⢿⣿⣯⡅⣶⡇⠀⠀⠊⣰⣏⠞
+⠀⠀⠀⠀⠀⠀⠀⠨⡑⠠⢤⢏⡀⠐⢤⣅⠻⢀⡀⡀⠀⠁⠂⠀⠀⠀⠂⣠⣿⣻⣝⡻⡜⡣⠃⠩⠥⣅⠂___⠂⢭⢉⠙⣿⣀⣾⣿⣿⣯⣕⡟⠓⢠⡿⢋⡡___⣠⣾⡿⠊___
+⠀⠀⠀⠀⠀⠀⠀⠀___⠈⠁⣇⠈⠑⢦⣬⡟⣛⢧⣄⡠⢧⣴⡮___⠒⣖⣫⡷⢣⠚⠻⠟⠃⠘⡀___⢂⣧⢼⡿⣟⣽⠧⣾⡎⢽⢟⣋⠧⣾⠋⢀⣴⣫⠟⢁⣤⣾⠟⠁_______
+⠀⠀⠀⠀⠑⢄⡀___________⠉⠚⠒⠦⠃⡌⣤⣬⡍⣻⢾⣹⠏⠛⠻⢿⡿⣀________⣀⣀⡀______⠍⣨⢿⠃⠌⠣⣦⢚⠏⠉____⠛⠋⠘⠛⡀⣀⣴⠿⠉___⢀_______⠂
+⠀⠀⠀⠀___⠈⡈⠑⠤⣀_________________⠘⠻⠋⢍⠷⠣⡾⣿⢩⣽⠾⠍⠫⠭⢽⡷⠁_____⠐⠉_______________________⢠⣢⣼⡾⠟⠉________________
+_____________________⠁⠲⠤⢀⣀_______________⠈___⠈⠉________⠍_____________________⢀⣀⣤⠶⠞⠛⠉_______________⣀⣤⢶⠛
+________________________⠉⠙⠂⡐⠠⠄⢄⣀⣀⡀___________________________⢀⣀⣀⣠⡤⢴⠶⠛⠋⠉____________⣠⣴⡿⠻⠉_____
 """
 
 art_bagian_4 = r"""
@@ -257,76 +197,113 @@ art_bagian_4 = r"""
 ====-+########***################################################_________=++*+======-----------=++++====----+*+---------
 +=====########****################################################________===+**==+====----------=+++++===-----=*+-------
 +=====########*****################################################_______===++*+=++====----------=++++++===-------------
-+====+#*++###**################################################___________==+++**+========---------=+++++++++===--------
++====+#*++###**################################################___________==+++**+========---------=+++++++====----------
 +===+*+++*****################################################____________++++++*==========---------=+++++++++===--------
 """
 
-def main():
-    os.system('cls' if os.name == 'nt' else 'clear')
-    
-    cetak_ascii_smooth(art_banner, jeda_baris=0.005)
-    time.sleep(2.0)
-    
-    cetak_ascii_smooth(art_bagian_1, jeda_baris=0.002)
-    time.sleep(1.5)
-    
-    cetak_ascii_smooth(art_bagian_2, jeda_baris=0.002)
-    time.sleep(1.5)
-    
-    cetak_ascii_smooth(art_bagian_3, jeda_baris=0.002)
-    time.sleep(1.5)
-    
-    cetak_ascii_smooth(art_bagian_4, jeda_baris=0.002)
-    time.sleep(1.5)
-    
-    print_utf8("\n" + "═"*60 + "\n")
-    ketik_efek("🚨 DETEKSI KESALAHAN SISTEM: PACAR LAGI NGAMBEK BERAT... 🚨", kecepatan=0.03)
-    time.sleep(0.3)
-    ketik_efek("Sebab: Bikin marah-marah sampai sebegitunya gara-gara telat...", kecepatan=0.03)
-    print_utf8("\n" + "═"*60 + "\n")
-    
-    time.sleep(0.8)
-    
-    while True:
-        print_utf8("Pilih opsi maaf untuk cowokmu ini (Ketik 1, 2, atau 3):")
-        print_utf8("1. Maafin yaaa sayang, sama-sama terus lewatin badai 🥺❤️")
-        print_utf8("2. Gak mau maafin! Pokoknya masih marah banget! 😡")
-        print_utf8("3. Boleh dimaafin tapi wajib denda seblak/boba/makan enak! 🧋✨")
-        
-        pilihan = input("\nJawaban Bibub: ").strip()
-        print_utf8("\n" + "─"*40)
-        
-        if pilihan == "1" or pilihan == "3":
-            print_utf8("\n")
-            if pilihan == "3":
-                ketik_efek("✅ DENDA DITERIMA! SIAP KULINERAN SEPUASNYA! 🤝🧋", 0.04)
-                time.sleep(0.2)
-            
-            ketik_efek("🎉 HAPPY BIRTHDAY YAAA BIBUB, MUAHHH 🎉", 0.04)
-            time.sleep(0.2)
-            ketik_efek("Aku minta maaf karna sebelumnya aku bener bener bikin kamu marah marah sampai sebegitunya,", 0.03)
-            ketik_efek("Aku cuma bisa bikinin ini sebagai ganti dari hadiah ulang tahun kamu yang mendatang...", 0.03)
-            ketik_efek("Sehat selalu dan maafin aku yaaa sayang, sama aku terus yaaa kita lewatin semua badai yang menerjang kita....!! ❤️✨", 0.03)
-            print_utf8("\n" + "═"*60)
-            time.sleep(2.5)
-            
-            animasi_hati_berkelip(art_akhir)
-            break
-            
-        elif pilihan == "2":
-            print_utf8("\n")
-            ketik_efek("❌ SYSTEM ERROR: Pilihan ini ditolak sistem!", kecepatan=0.03)
-            ketik_efek("Tolong pilih nomor 1 atau 3 aja biar kita bisa baikan yaaa bibub wkwkwk... 🙏🥺", kecepatan=0.03)
-            time.sleep(1)
-            print_utf8("\n" + "─"*40 + "\n")
-            
-        else:
-            print_utf8("\n")
-            ketik_efek("Ketik angkanya aja sayang (1, 2, atau 3) wkwk. Coba lagi ya!", kecepatan=0.03)
-            time.sleep(1)
-            print_utf8("\n" + "─"*40 + "\n")
+# --- FUNGSI APLIKASI TIKINTER GUI ---
 
-    input()
+def tampilkan_gui():
+    root = tk.Tk()
+    root.title("Surprise For Bibub! ❤️")
+    root.geometry("900x700")
+    root.configure(bg="#0d1117")
+
+    # Kotak Teks Scrollable untuk Menampung Semua ASCII Art Foto
+    txt_area = scrolledtext.ScrolledText(
+        root, 
+        wrap=tk.NONE, 
+        font=("Courier", 7), 
+        bg="#0d1117", 
+        fg="#58a6ff",
+        insertbackground="white"
+    )
+    txt_area.pack(fill=tk.BOTH, expand=True, padx=15, pady=15)
+
+    # Penggabungan Seluruh ASCII Art
+    full_ascii = (
+        art_banner + "\n\n" +
+        art_bagian_1 + "\n\n" +
+        art_bagian_2 + "\n\n" +
+        art_bagian_3 + "\n\n" +
+        art_bagian_4
+    )
+    
+    txt_area.insert(tk.INSERT, full_ascii)
+    txt_area.configure(state='disabled')  # Kunci teks biar gak bisa terhapus
+
+    # Pesan Teks
+    label_status = tk.Label(
+        root, 
+        text="🚨 DETEKSI KESALAHAN SISTEM: PACAR LAGI NGAMBEK BERAT... 🚨\nSebab: Bikin marah-marah sampai sebegitunya gara-gara telat...", 
+        font=("Arial", 11, "bold"), 
+        bg="#0d1117", 
+        fg="#ff7b72",
+        justify="center"
+    )
+    label_status.pack(pady=5)
+
+    # Logika Tombol Jawaban
+    def jawab(pilihan):
+        if pilihan in [1, 3]:
+            pesan_isi = (
+                "🎉 HAPPY BIRTHDAY YAAA BIBUB, MUAHHH 🎉\n\n"
+                "Aku minta maaf karna sebelumnya aku bener bener bikin kamu marah marah sampai sebegitunya,\n"
+                "Aku cuma bisa bikinin ini sebagai ganti dari hadiah ulang tahun kamu yang mendatang...\n\n"
+                "Sehat selalu dan maafin aku yaaa sayang, sama aku terus yaaa kita lewatin semua badai yang menerjang kita....!! ❤️✨"
+            )
+            if pilihan == 3:
+                pesan_isi = "✅ DENDA DITERIMA! SIAP KULINERAN SEPUASNYA! 🤝🧋\n\n" + pesan_isi
+                
+            messagebox.showinfo("Hadiah Buat Bibub ❤️", pesan_isi)
+            root.destroy()
+        else:
+            messagebox.showwarning(
+                "Ditolak Sistem! ❌", 
+                "❌ SYSTEM ERROR: Pilihan ini ditolak sistem!\n\nTolong pilih nomor 1 atau 3 aja biar kita bisa baikan yaaa bibub wkwkwk... 🙏🥺"
+            )
+
+    # Frame Tombol Pilihan
+    btn_frame = tk.Frame(root, bg="#0d1117")
+    btn_frame.pack(pady=10)
+
+    btn1 = tk.Button(
+        btn_frame, 
+        text="1. Maafin yaaa ❤️", 
+        command=lambda: jawab(1), 
+        bg="#238636", 
+        fg="white", 
+        font=("Arial", 10, "bold"),
+        padx=10,
+        pady=5
+    )
+    btn1.grid(row=0, column=0, padx=8)
+
+    btn2 = tk.Button(
+        btn_frame, 
+        text="2. Gak mau maafin! 😡", 
+        command=lambda: jawab(2), 
+        bg="#da3633", 
+        fg="white", 
+        font=("Arial", 10, "bold"),
+        padx=10,
+        pady=5
+    )
+    btn2.grid(row=0, column=1, padx=8)
+
+    btn3 = tk.Button(
+        btn_frame, 
+        text="3. Wajib Denda Seblak/Boba 🧋✨", 
+        command=lambda: jawab(3), 
+        bg="#238636", 
+        fg="white", 
+        font=("Arial", 10, "bold"),
+        padx=10,
+        pady=5
+    )
+    btn3.grid(row=0, column=2, padx=8)
+
+    root.mainloop()
 
 if __name__ == "__main__":
-    main()
+    tampilkan_gui()
