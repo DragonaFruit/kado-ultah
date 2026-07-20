@@ -3,6 +3,7 @@ import sys
 import os
 import random
 import threading
+import math
 import tkinter as tk
 from tkinter import scrolledtext
 
@@ -62,7 +63,7 @@ art_bagian_2 = r"""
 ⠀⢸⠀⡼⠀⣀⡼⠀⡎⡰⠋⣴⠉⣽⠇⢈⣦⢸⡿⠀⣽⡆⣿⠃⣼⠏⢠⠋⠈⢆⠀⠀⠀⠀⠀⠀⢸⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀
 ⠀⡇⠀⣋⡩⢴⠆⢰⡷⢁⣾⠃⢸⠏⢠⣯⠇⣼⠇⣼⡜⢠⣿⠠⠋⠀⡇⠀⠀⠈⢦⡀⠀⠀⠀⢀⢼⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡜
 ⢸⠀⡞⠀⠀⢸⣀⡌⣇⠸⣣⢧⣩⡆⡬⠥⠞⡿⢰⠤⠴⠃⠘⠒⡏⢸⠀⠀⠀⠀⠀⠙⡶⠖⠊⠁⠀⣆⠀⠀⠀⠀⠀⠀⠀⢀⠞⠀
-⢰⠁⠀⠀⠀⠀⠀⠈⠉⠀⠀⢸⢠⠃⠀⠀⠇⡎⠀⠸⡝⠦⠴⢃⡾⠀⠀⠀⠀⠀⡾⠁⠀⠀⠀⠀⠘⢦⡀⠀⢀⣠⠤⠚⠁⠀⠀
+⠁⠀⠀⠀⠀⠀⠈⠉⠀⠀⢸⢠⠃⠀⠀⠇⡎⠀⠸⡝⠦⠴⢃⡾⠀⠀⠀⠀⠀⡾⠁⠀⠀⠀⠀⠘⢦⡀⠀⢀⣠⠤⠚⠁⠀⠀
 ⠉⠁⠀⠀⠀⣠⠔⠒⠒⠢⣄⠀⣏⣸⠀⠀⠸⣄⣧⣤⡀⠈⡳⢻⡍⠀⠀⠀⠀⢀⣸⠃⠀⠀⠀⠀⠀⢀⡼⠋⠉⣩⣄⠀⠀⠀⠀⠀
 ⠀⠀⠀⠀⢸⠁⣠⠒⠒⣲⠈⣦⠈⠁⠀⢀⡤⠤⠞⠀⠛⠚⠡⡎⠀⠀⠀⠀⡼⢉⡟⠀⠀⠀⠀⠀⢠⡞⠀⠀⡼⠁⣸⠃⠀⠀⠀⠀
 ⠀⠀⠀⢀⡇⢀⣃⣠⠞⣁⠼⡵⠒⣦⠤⣌⣗⣲⠃⡜⢩⠃⡞⣀⠀⠀⠀⢰⠁⡜⠀⡀⠀⠀⠀⢠⠟⠀⠀⢰⠃⢠⠃⠀⠀⠀⠀⠀
@@ -84,7 +85,7 @@ art_bagian_3 = r"""
 ⠀⠀⠀⠀⠀⠀⡤⠀⢰⢮⡼⣽⣾⡷⡟⠛⠁⡠⡆⢕⡤⠛⠁⠈⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠐⠀⢰⣱⠈⡸⣤⣿⣿⣿⣿⢛⣍⢥⡚⡉⢫⠟⣛⣍⣻⣷⠀⠀⠀⠀
 ⠀⠀⠀⠀⠀⡜⠀⡀⢹⣸⡵⣻⡟⠛⠊⠘⠀⣵⠼⠊⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⡀⢆⣤⣽⠿⡂⠊⠱⣬⠸⢪⢪⢦⢣⡀⠙⣾⡷⣭⣇⠀⠀⠀
 ⠀⠀⠀⠀⠄⡇⠀⣿⣤⡟⡟⡿⡄⠤⢘⠜⣘⠇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⠠⣀⡼⠿⠿⠟⠀⠄⠀⠧⢣⣿⠟⣿⢟⣼⢠⠀⢛⣿⣤⢻⡄⢠⠀
-⠀⠀⠀⠈⢠⠁⢮⢯⠛⡗⣵⣻⡀⠸⡁⢐⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠒⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣕⣢⣳⢻⣝⣞⢀⠀⠸⣝⢋⣉⠆⠡
+⠀⠀⠀⠈⢠⠁⢮⢯⠛⡗⣵⣻⡀⠸⡁⢐⡁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠠⠀⠒⠉⠁⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣕⣢⣳⢻⣝⣞⢀⠀⠸⣝⣉⠆⠡
 ⠀⢀⡔⡀⠄⠀⣾⢕⡼⢸⣥⢻⡀⠘⠉⢩⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢠⣴⣿⣄⣶⣦⣤⣦⡌⣦⣤⢊⣡⣤⣄⣀⣀⢀⠀⠀⠀⠈⠑⢉⠁⢈⠡⡋⠀⣠⠾⣷⡡⢎⡥
 ⠀⢠⠔⠁⠁⠀⠘⢗⢿⡏⢾⢹⠃⠰⠪⠉⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣬⣡⣀⠉⠙⠛⠓⠛⠿⣧⣷⣫⣻⵵⡻⠻⠯⢾⣿⣲⣶⣴⢞⣠⡄⢸⣇⡻⡾⣝⣳⠼
 ⠀⠀⠿⣠⡀⢆⠀⠘⣖⠄⣢⡡⢦⠗⠂⠌⠑⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣷⣟⣎⣷⢖⡄⡤⣀⠀⠀⠈⠙⠁⠀⠠⠼⡁⡵⢣⠏⡞⠇⠋⠓⠸⣽⡿⣽⣳⢯⣟
@@ -96,14 +97,14 @@ art_bagian_3 = r"""
 ⠐⠀⢻⡅⠠⡁⠛⣶⢿⡄⠀⠀⠀⠀⠀⠀⠀⠄⠠⠄⡄⠐⢀⢀⡀⣀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⡏⣶⢴⡤⣄⠉⠚⠥⠯⠊⣠⡲⣠⠏⠀⠀⠈⠁⣿⣇⠽⣳⣮⡓⢿⣻⡄
 ⠀⠸⣾⡇⠀⠈⠄⠸⠎⠱⠀⠈⠀⠀⠀⠀⠀⠄⠨⣆⣆⠀⣶⢡⡌⠀⠈⠉⠙⠰⣿⣿⣿⣿⣿⣿⣿⣷⣿⣿⣛⣿⣶⣅⣀⠀⠀⠀⠀⠁⠀⠀⠀⠀⢰⡻⡏⠆⢻⣟⣾⢚⣳⢧
 ⠀⢛⣴⡄⠀⠀⠀⠙⠀⠀⠀⠄⠀⠀⠀⠀⠀⢂⢠⣟⣿⣇⣷⢆⠳⡀⠀⠀⠁⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⡿⣿⣭⡶⡿⣚⢟⢦⢠⠀⠀⠀⠀⠀⣼⣶⣇⢆⣹⣿⡻⣤⠙⣧
-⠀⢯⣾⠄⠀⡄⠀⠀⠀⠀⠀⠀⢄⠀⠀⠀⠀⠠⢁⣄⣊⢙⠲⣏⠑⢀⠐⠠⠠⢺⣿⣯⣿⣏⡿⢿⣿⣿⣿⣿⣻⣯⣷⣷⣿⡓⣻⣼⢻⠂⠀⠀⠀⠀⣽⣿⣷⣊⣿⣷⣿⣼⡙⡼
+⠀⢯⣾⠄⠀ lightweight ⡄⠀⠀⠀⠀⠀⠀⢄⠀⠀⠀⠀⠠⢁⣄⣊⢙⠲⣏⠑⢀⠐⠠⠠⢺⣿⣯⣿⣏⡿⢿⣿⣿⣿⣿⣻⣯⣷⣷⣿⡓⣻⣼⢻⠂⠀⠀⠀⠀⣽⣿⣷⣊⣿⣷⣿⣼⡙⡼
 ⠀⠲⣈⡏⠄⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠮⠬⡐⣵⠘⢆⠀⠀⠀⠄⣾⣿⣿⣿⣿⣿⣟⣆⣉⡛⠻⠿⣷⣾⣋⠾⣑⣛⣫⠏⠀⠀⠀⠀⠸⣿⣿⣧⣿⣿⣿⡿⠏⡐⢱
 ⠐⢾⢮⡹⠁⡀⠠⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠁⠀⡁⠀⠄⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣤⡠⡀⠉⠛⠃⫮⣮⡓⠀⠀⠀⠀⢰⣿⣿⣿⣿⢋⠉⠐⠀⠀⡃
 ⠀⡀⢤⠌⣦⡐⣄⡀⠐⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⡱⠀⠀⠁⠒⢲⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⠮⣤⣀⠀⠀⠀⢂⠀⠀⡤⠞⢿⣿⣿\⠀⠀⠀⠀⠀⠀
 ⠀⢨⡄⢹⣾⢳⢹⠘⠂⠀⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢺⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣯⣶⣿⣿⡟⣾⣵⢣⠀⣴⠁⠋⢡⢠⣾⣿⠛⠁⠀⠀⠀⠀⠀⢠
 ⠀⠀⠫⠒⠪⣳⣙⢷⡇⠱⠶⠀⠀⠀⠠⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣳⣟⣿⢖⣾⣷⡮⣾⠀⠀⢀⣤⣦⣜⣻⢯⣳⠀⠀⠀⠀⠀⢀⡾
 ⠀⠀⠀⠀⠈⠐⠉⠄⠐⠣⢎⣽⠓⠲⠤⡀⠀⠤___⢀⠀⠀⠀⠀⠀⠀⠀⢀⣿⡿⣟⡿⣟⡿⢿⡿⡿⠿⡿⣿⣷⣯⣿⣳⣺⠷⣎⢀⣤⣾⡿⢿⣿⣯⡅⣶⡇⠀⠀⠊⣰⣏⠞
-⠀⠀⠀⠀⠀⠀⠀⠨⡑⠠⢤⢏⡀⠐⢤⣅⠻⢀⡀⡀⠀⠁⠂⠀⠀⠀⠂⣠⣿⣻⣝⡻⡜⡣⠃⠩⠥⣅⠂___⠂⢭⢉⠙⣿⣀⣾⣿⣿⣯⣕⡟⠓⢠⡿⢋⡡___⣠⣾⡿⠊___
+⠀⠀⠀⠀⠀⠀⠀⠨⡑⠠⢤⢏⡀⠐⢤⣅⠻⢀⡀⡀⠀ plastic ⠁⠂⠀⠀⠀⠂⣠⣿⣻⣝⡻⡜⡣⠃⠩⠥⣅⠂___⠂⢭⢉⠙⣿⣀⣾⣿⣿⣯⣕⡟⠓⢠⡿⢋⡡___⣠⣾⡿⠊___
 ⠀⠀⠀⠀⠀⠀⠀⠀___⠈⠁⣇⠈⠑⢦⣬⡟⣛⢧⣄⡠⢧⣴⡮___⠒⣖⣫⡷⢣⠚⠻⠟⠃⠘⡀___⢂⣧⢼⡿⣟⣽⠧⣾⡎⢽⢟⣋⠧⣾⠋⢀⣴⣫⠟⢁⣤⣾⠟⠁_______
 ⠀⠀⠀⠀⠑⢄⡀___________⠉⠚⠒⠦⠃⡌⣤⣬⡍⣻⢾⣹⠏⠛⠻⢿⡿⣀________⣀⣀⡀______⠍⣨⢿⠃⠌⠣⣦⢚⠏⠉____⠛⠋⠘⠛⡀⣀⣴⠿⠉___⢀_______⠂
 ⠀⠀⠀⠀___⠈⡈⠑⠤⣀_________________⠘⠻⠋⢍⠷⠣⡾⣿⢩⣽⠾⠍⠫⠭⢽⡷⠁_____⠐⠉_______________________⢠⣢⣼⡾⠟⠉________________
@@ -169,39 +170,75 @@ art_bagian_4 = r"""
 ******************************+-------------------------------------------====####**************++++++++++++++++++++++*##
 *****************************----------------------------------------------==+#####******++++*+++++++++++++++++++++++*###
 ****************************-----------------------------------------------==+*#####*****++++++++++++++++++====+++++*####
-***************************+-----------------------------------------------==+#######***++++++++++++++++=======+++++**###
-**************************####=-------------------------------------------====#########**++++++++++++=========++++++**###
-************************#######*-----------------------------------------====+###########**++++++++=======+++++++++++**##
-**********************##########=---------------------------------------=====+#############**++++++++++++++++________**##
-##******************#############=--------------------------------------=--==*#*############****+++++++++++++++++++++***#
-####************#####################*=======------------------------------=+#*#############***************+++++++++++**#
-#########################################+=====-------------------------=--=+#*#############**************++++++++++++***
-##########################################*++======----------------------====#######****####**************+++++++++++++**
-############################################++++=====---------------------==*######******##****************++++++++++++++
-##############################################*+++++===-----------==+*############**+****###****************+++++++++++++
-#################################################*+++===-----=+*#################***+++***##****************+++++++++++++
-###################################################+++===+*####################****+++++***##**************++++++++++++++
-####################################################*+*#######################*****+++++++**###**************+**+++++++++
-#############################################################################**++++++++++++++###*****************++++++++
-#############################################################################++++++++++++++++++******************++++++++
-################################################################________*###+===++====+++++++++++****+++++++++++++===++++
-################################################################____________=======----=++==++===++++++++++++++=========-
-################################################################____________---=--===----===---====+=++++++++=====----===
-################################################################___________*--------==----===-----======+++==============
-################################################################___________*---------==----===----------===============--
-################################################################___________=-----------==---===---------=============----
-################################################################___________=------------==-=====--------==========-------
-################################################################__________*--------------========-------======-----------
-################################################################__________*=---------------=======-------=====-----------
-###+=*#########****################################################________==---------------========---+-======----------
-++===+#######*=+++*################################################________*+=---------------====++==--**++======--------
-====-+########++**################################################________=+*+=====-----------==++++===-=+*++======------
-====-+########***################################################_________=++*+======-----------=++++====----+*+---------
-+=====########****################################################________===+**==+====----------=+++++===-----=*+-------
-+=====########*****################################################_______===++*+=++====----------=++++++===-------------
-+====+#*++###**################################################___________==+++**+========---------=+++++++++===--------
-+===+*+++*****################################################____________++++++*==========---------=+++++++++===--------
+***************************+-----------------------------------------------==+#######***++++++++++++++++_______**###
+**************************####=-------------------------------------------====#########**++++++++++++_________**###
+************************#######*-----------------------------------------====+###########**++++++++_________***##
+**********************##########=---------------------------------------=====+#############**________________***#
+##******************#############=--------------------------------------=--==*#*############****________________**#
+####************#####################*=======------------------------------=+#*#############***************________**#
+#########################################+=====-------------------------=--=+#*#############**************________***
+##########################################*++======----------------------====#######****####**************________**
+############################################++++=====---------------------==*######******##________________
+##############################################*+++++===-----------==+*############**+****###________________
+#################################################*+++===-----=+*#################***+++***##________________
+###################################################+++===+*####################****+++++***##________________
+####################################################*+*#######################*****+++++++**###______________
+#############################################################################**++++++++++++++###________________
+#############################################################################++++++++++++++++++________________
+################################################################________*###+===++====+++++++++++____
+################################################################___________________
 """
+
+# --- CLASS UNTUK EFEK KEMBANG API ---
+class KembangApiCanvas(tk.Canvas):
+    def __init__(self, parent, **kwargs):
+        super().__init__(parent, **kwargs)
+        self.particles = []
+        self.is_running = True
+        self.colors = ['#ff4d4d', '#ff9933', '#ffff1a', '#33cc33', '#3399ff', '#cc33ff', '#ff3399', '#ffffff']
+        
+    def buat_meletup(self):
+        if not self.is_running:
+            return
+        
+        # Buat titik pusat letupan acak di layar
+        cx = random.randint(100, self.winfo_width() - 100)
+        cy = random.randint(100, self.winfo_height() - 200)
+        warna = random.choice(self.colors)
+        
+        # Buat partikel-partikel percikan
+        for _ in range(random.randint(30, 50)):
+            angle = random.uniform(0, 2 * math.pi)
+            speed = random.uniform(2, 8)
+            vx = math.cos(angle) * speed
+            vy = math.sin(angle) * speed
+            size = random.randint(3, 5)
+            
+            p = self.create_oval(cx, cy, cx+size, cy+size, fill=warna, outline="")
+            self.particles.append({'id': p, 'vx': vx, 'vy': vy, 'life': random.randint(20, 35)})
+
+    def update_frame(self):
+        if not self.is_running:
+            return
+        
+        # Munculkan meletupan kembang api secara berkala
+        if random.random() < 0.25:
+            self.buat_meletup()
+
+        sisa_partikel = []
+        for p in self.particles:
+            self.move(p['id'], p['vx'], p['vy'])
+            p['vy'] += 0.15 # Efek gravitasi jatuh
+            p['life'] -= 1
+            
+            if p['life'] > 0:
+                sisa_partikel.append(p)
+            else:
+                self.delete(p['id'])
+                
+        self.particles = sisa_partikel
+        self.after(30, self.update_frame)
+
 
 def tampilkan_gui():
     root = tk.Tk()
@@ -211,12 +248,16 @@ def tampilkan_gui():
     root.attributes('-fullscreen', True)
     root.configure(bg="#0b0e14")
 
-    # Tombol Keluar Darurat (Esc)
-    root.bind("<Escape>", lambda event: root.destroy())
+    # Fungsi Keluar Aplikasi
+    def keluar_app(event=None):
+        root.destroy()
+
+    root.bind("<Escape>", keluar_app)
+    root.bind("<Return>", keluar_app) # Tombol Enter untuk Keluar
 
     # Header Atas
     header_frame = tk.Frame(root, bg="#0b0e14")
-    header_frame.pack(fill=tk.X, pady=(20, 10))
+    header_frame.pack(fill=tk.X, pady=(20, 5))
 
     title_label = tk.Label(
         header_frame, 
@@ -227,16 +268,7 @@ def tampilkan_gui():
     )
     title_label.pack()
 
-    sub_title = tk.Label(
-        header_frame, 
-        text="Tekan tombol [ESC] di keyboard kapan saja untuk keluar", 
-        font=("Arial", 9, "italic"), 
-        bg="#0b0e14", 
-        fg="#484f58"
-    )
-    sub_title.pack(pady=2)
-
-    # Frame Utama Tampilan ASCII (Tengah)
+    # Frame Utama Tampilan ASCII
     main_frame = tk.Frame(root, bg="#0b0e14")
     main_frame.pack(fill=tk.BOTH, expand=True, padx=40, pady=5)
 
@@ -253,8 +285,8 @@ def tampilkan_gui():
     )
     txt_area.pack(fill=tk.BOTH, expand=True)
 
-    # Area Pesan & Permohonan Maaf
-    status_frame = tk.Frame(root, bg="#0b0e14", pady=10)
+    # Area Pesan Status
+    status_frame = tk.Frame(root, bg="#0b0e14", pady=5)
     status_frame.pack(fill=tk.X)
 
     label_status = tk.Label(
@@ -267,41 +299,47 @@ def tampilkan_gui():
     )
     label_status.pack()
 
-    # Container Pilihan Ganda Mewah (Card Container)
+    # Container Pilihan Ganda (Card Container)
     card_container = tk.Frame(root, bg="#161b22", bd=1, relief="solid", highlightthickness=1, highlightbackground="#30363d")
 
-    # Efek Typing Text untuk Pesan Maaf
-    def ketik_teks_animasi(label_target, teks_lengkap, kecepatan=0.03, callback=None):
-        def _type():
-            label_target.config(text="")
-            buffer = ""
-            for char in teks_lengkap:
-                buffer += char
-                label_target.config(text=buffer)
-                time.sleep(kecepatan)
-            if callback:
-                callback()
-        threading.Thread(target=_type, daemon=True).start()
+    # --- FUNGSI TAMPILKAN EFEK KEMBANG API FULLSCREEN ---
+    def munculkan_kembang_api():
+        header_frame.pack_forget()
+        main_frame.pack_forget()
+        status_frame.pack_forget()
+        card_container.pack_forget()
+
+        # Canvas Kembang Api Full Screen
+        cv = KembangApiCanvas(root, bg="#05070a", highlightthickness=0)
+        cv.pack(fill=tk.BOTH, expand=True)
+
+        # Teks Ucapan Tengah Layar
+        txt_hbd = tk.Label(
+            cv, 
+            text="✨ HAPPY BIRTHDAY BIBUB ✨\n❤️ I LOVE YOU SO MUCH ❤️", 
+            font=("Georgia", 26, "bold"), 
+            bg="#05070a", 
+            fg="#ff7b72"
+        )
+        txt_hbd.place(relx=0.5, rely=0.45, anchor="center")
+
+        # Petunjuk Tekan ENTER / ESC
+        txt_info = tk.Label(
+            cv, 
+            text="👉 [ TEKAN ENTER DI KEYBOARD UNTUK KELUAR ] 👈", 
+            font=("Segoe UI", 13, "bold"), 
+            bg="#05070a", 
+            fg="#e3b341"
+        )
+        txt_info.place(relx=0.5, rely=0.6, anchor="center")
+
+        cv.update_frame()
 
     # Logika Jawaban Pilihan
     def jawab(pilihan):
         if pilihan in [1, 3]:
-            # Sembunyikan Pilihan Ganda
-            card_container.pack_forget()
-            
-            # Tampilkan Jawaban dengan Efek Typing Mewah
-            pesan_maaf = (
-                "🎉 HAPPY BIRTHDAY YAAA BIBUB, MUAHHH 🎉\n\n"
-                "Aku minta maaf karna sebelumnya aku bener bener bikin kamu marah marah sampai sebegitunya,\n"
-                "Aku cuma bisa bikinin ini sebagai ganti dari hadiah ulang tahun kamu yang mendatang...\n\n"
-                "Sehat selalu dan maafin aku yaaa sayang, sama aku terus yaaa kita lewatin semua badai yang menerjang kita....!! ❤️✨"
-            )
-            if pilihan == 3:
-                pesan_maaf = "✅ DENDA DITERIMA! SIAP KULINERAN SEPUASNYA! 🤝🧋\n\n" + pesan_maaf
-
-            label_status.config(font=("Segoe UI", 13, "bold"), fg="#7ee787")
-            ketik_teks_animasi(label_status, pesan_maaf, kecepatan=0.025)
-
+            # Munculkan Kembang Api
+            munculkan_kembang_api()
         else:
             label_status.config(
                 text="❌ SYSTEM ERROR: Pilihan ini ditolak sistem!\nTolong pilih nomor 1 atau 3 aja biar kita bisa baikan yaaa bibub... 🙏🥺",
@@ -309,73 +347,42 @@ def tampilkan_gui():
                 fg="#f85149"
             )
 
-    # --- MEMBUAT CARD PILIHAN GANDA MEWAH ---
-    
-    # Sub-fungsi pembuat tombol berbentuk kartu
+    # --- TOMBOL CARD PILIHAN ---
     def buat_kartu_pilihan(parent, nomor, judul, deskripsi, warna_bg, cmd):
-        btn_card = tk.Button(
-            parent,
-            text=f"{nomor}. {judul}\n   {deskripsi}",
-            font=("Segoe UI", 10, "bold"),
-            bg=warna_bg,
-            fg="white",
-            activebackground="#2ea043",
-            activeforeground="white",
-            bd=0,
-            relief="flat",
-            justify="left",
-            padx=15,
-            pady=10,
-            cursor="hand2",
-            command=cmd
+        return tk.Button(
+            parent, text=f"{nomor}. {judul}\n   {deskripsi}",
+            font=("Segoe UI", 10, "bold"), bg=warna_bg, fg="white",
+            bd=0, relief="flat", justify="left", padx=15, pady=10, cursor="hand2", command=cmd
         )
-        return btn_card
 
-    card1 = buat_kartu_pilihan(
-        card_container, "1", "Maafin Yaaa Sayang", "Sama-sama terus lewatin badai 🥺❤️", "#238636", lambda: jawab(1)
-    )
-    card1.grid(row=0, column=0, padx=10, pady=15)
+    card1 = buat_kartu_pilihan(card_container, "1", "Maafin Yaaa Sayang", "Sama-sama terus lewatin badai 🥺❤️", "#238636", lambda: jawab(1))
+    card1.grid(row=0, column=0, padx=10, pady=12)
 
-    card2 = buat_kartu_pilihan(
-        card_container, "2", "Gak Mau Maafin!", "Pokoknya masih marah banget! 😡", "#da3633", lambda: jawab(2)
-    )
-    card2.grid(row=0, column=1, padx=10, pady=15)
+    card2 = buat_kartu_pilihan(card_container, "2", "Gak Mau Maafin!", "Pokoknya masih marah banget! 😡", "#da3633", lambda: jawab(2))
+    card2.grid(row=0, column=1, padx=10, pady=12)
 
-    card3 = buat_kartu_pilihan(
-        card_container, "3", "Denda Boba / Seblak", "Boleh dimaafin tapi wajib kulineran! 🧋✨", "#1f6feb", lambda: jawab(3)
-    )
-    card3.grid(row=0, column=2, padx=10, pady=15)
+    card3 = buat_kartu_pilihan(card_container, "3", "Denda Boba / Seblak", "Boleh dimaafin tapi wajib kulineran! 🧋✨", "#1f6feb", lambda: jawab(3))
+    card3.grid(row=0, column=2, padx=10, pady=12)
 
-    # --- FUNGSI EFEK SCROLL ANIMASI ASCII SLOW-MOTION ---
+    # --- ANIMASI ASCII SCROLL ---
     def mulai_animasi():
         full_ascii = (
-            art_banner + "\n\n" +
-            art_bagian_1 + "\n\n" +
-            art_bagian_2 + "\n\n" +
-            art_bagian_3 + "\n\n" +
-            art_bagian_4
+            art_banner + "\n\n" + art_bagian_1 + "\n\n" +
+            art_bagian_2 + "\n\n" + art_bagian_3 + "\n\n" + art_bagian_4
         )
-        baris_list = full_ascii.split("\n")
-
-        for line in baris_list:
+        for line in full_ascii.split("\n"):
             txt_area.insert(tk.END, line + "\n")
-            txt_area.see(tk.END) # Scroll otomatis
-            time.sleep(0.012)     # Kecepatan gulung gambar
+            txt_area.see(tk.END)
+            time.sleep(0.01)
 
-        txt_area.configure(state='disabled') # Kunci area teks
-        
-        # Setelah animasi ASCII selesai, ketik pesan ngambek & buka Card Pilihan
-        pesan_ngambek = "🚨 DETEKSI KESALAHAN SISTEM: PACAR LAGI NGAMBEK BERAT... 🚨\nSebab: Bikin marah-marah gara-gara telat..."
-        
-        def munculkan_pilihan():
-            card_container.pack(pady=(0, 20))
+        txt_area.configure(state='disabled')
+        label_status.config(
+            text="🚨 DETEKSI KESALAHAN SISTEM: PACAR LAGI NGAMBEK BERAT... 🚨\nSebab: Bikin marah-marah gara-gara telat...",
+            font=("Segoe UI", 11, "bold"), fg="#ff7b72"
+        )
+        card_container.pack(pady=(0, 15))
 
-        label_status.config(font=("Segoe UI", 11, "bold"), fg="#ff7b72")
-        ketik_teks_animasi(label_status, pesan_ngambek, kecepatan=0.03, callback=munculkan_pilihan)
-
-    # Jalankan animasi di background thread
     threading.Thread(target=mulai_animasi, daemon=True).start()
-
     root.mainloop()
 
 if __name__ == "__main__":
