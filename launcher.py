@@ -4,7 +4,7 @@ import os
 import random
 import threading
 import tkinter as tk
-from tkinter import scrolledtext, messagebox
+from tkinter import scrolledtext
 
 # --- ASCII ART LENGKAP KAMU ---
 
@@ -90,6 +90,7 @@ art_bagian_3 = r"""
 ⠀⠀⠿⣠⡀⢆⠀⠘⣖⠄⣢⡡⢦⠗⠂⠌⠑⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣷⣟⣎⣷⢖⡄⡤⣀⠀⠀⠈⠙⠁⠀⠠⠼⡁⡵⢣⠏⡞⠇⠋⠓⠸⣽⡿⣽⣳⢯⣟
 ⠀⠀⢸⡿⠀⡀⠀⠀⠈⠋⣮⢞⠛⣉⡁⢐⠪⡉⢀⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣟⣯⢄⢯⣚⣇⡱⢑⡳⣆⡄⠀⠐⠡⣀⡅⠃⢩⠂⠉⠠⠠⡄⡌⠻⣿⢷⣯⣻⣼
 ⠀⠘⣈⡧⠄⢗⠀⠀⠠⡄⠈⠛⠵⣎⣙⠷⢳⣱⡢⣽⠁⠀⠀⢀⡀⠀⠀⠀⠀⢨⣿⣿⣿⣿⣿⣿⣿⣿⣨⢎⣾⡰⢮⣽⢸⡶⡢⡀⠀⠑⠛⠀⠀⢺⡇⡸⠬⣿⣮⠻⣿⣿⣿
+⠀Diskusikan panci
 ⠀⠘⠁⡄⣆⡷⠈⢄⠐⠄⠀⠀⠀⠈⠈⠛⠻⢟⠏⢁⣀⢂⡵⢽⡧⠀⠀⠤⢋⢈⣿⣿⢯⡛⠛⠿⢯⣧⣻⡟⢴⣁⡊⢵⣱⠠⡭⢟⠑⢠⡀⣰⠂⠀⣰⢁⣆⡹⣿⣷⡝⢿⣾
 ⠀⣀⢐⡦⠺⢷⣾⢿⣆⢫⠐⠒⠀⠀⠀⠀⠀⠀⠀⠀⠹⠛⠛⠳⠣⢡⣞⠲⣞⢌⣿⣿⣿⣷⣯⣄⣀⡈⠁⠛⠶⢌⢳⡼⡗⠫⠑⣃⠬⣒⣰⠇⠁⣼⠀⢃⣾⣩⣌⣞⢯⣿⠎⢳
 ⠐⠀⢻⡅⠠⡁⠛⣶⢿⡄⠀⠀⠀⠀⠀⠀⠀⠄⠠⠄⡄⠐⢀⢀⡀⣀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⡏⣶⢴⡤⣄⠉⠚⠥⠯⠊⣠⡲⣠⠏⠀⠀⠈⠁⣿⣇⠽⣳⣮⡓⢿⣻⡄
@@ -98,7 +99,7 @@ art_bagian_3 = r"""
 ⠀⢯⣾⠄⠀⡄⠀⠀⠀⠀⠀⠀⢄⠀⠀⠀⠀⠠⢁⣄⣊⢙⠲⣏⠑⢀⠐⠠⠠⢺⣿⣯⣿⣏⡿⢿⣿⣿⣿⣿⣻⣯⣷⣷⣿⡓⣻⣼⢻⠂⠀⠀⠀⠀⣽⣿⣷⣊⣿⣷⣿⣼⡙⡼
 ⠀⠲⣈⡏⠄⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠮⠬⡐⣵⠘⢆⠀⠀⠀⠄⣾⣿⣿⣿⣿⣿⣟⣆⣉⡛⠻⠿⣷⣾⣋⠾⣑⣛⣫⠏⠀⠀⠀⠀⠸⣿⣿⣧⣿⣿⣿⡿⠏⡐⢱
 ⠐⢾⢮⡹⠁⡀⠠⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠁⠀⡁⠀⠄⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣤⡠⡀⠉⠛⠃⫮⣮⡓⠀⠀⠀⠀⢰⣿⣿⣿⣿⢋⠉⠐⠀⠀⡃
-⠀⡀⢤⠌⣦⡐⣄⡀⠐⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⡱⠀⠀⠁⠒⢲⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⠮⣤⣀⠀⠀⠀⢂⠀⠀⡤⠞⢿⣿⣿⣇⠀⠀⠀⠀⠀⠀
+⠀⡀⢤⠌⣦⡐⣄⡀⠐⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⡱⠀⠀⠁⠒⢲⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⠮⣤⣀⠀⠀⠀⢂⠀⠀⡤⠞⢿⣿⣿\⠀⠀⠀⠀⠀⠀
 ⠀⢨⡄⢹⣾⢳⢹⠘⠂⠀⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢺⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣯⣶⣿⣿⡟⣾⣵⢣⠀⣴⠁⠋⢡⢠⣾⣿⠛⠁⠀⠀⠀⠀⠀⢠
 ⠀⠀⠫⠒⠪⣳⣙⢷⡇⠱⠶⠀⠀⠀⠠⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣳⣟⣿⢖⣾⣷⡮⣾⠀⠀⢀⣤⣦⣜⣻⢯⣳⠀⠀⠀⠀⠀⢀⡾
 ⠀⠀⠀⠀⠈⠐⠉⠄⠐⠣⢎⣽⠓⠲⠤⡀⠀⠤___⢀⠀⠀⠀⠀⠀⠀⠀⢀⣿⡿⣟⡿⣟⡿⢿⡿⡿⠿⡿⣿⣷⣯⣿⣳⣺⠷⣎⢀⣤⣾⡿⢿⣿⣯⡅⣶⡇⠀⠀⠊⣰⣏⠞
@@ -182,7 +183,7 @@ art_bagian_4 = r"""
 ###################################################+++===+*####################****+++++***##**************++++++++++++++
 ####################################################*+*#######################*****+++++++**###**************+**+++++++++
 #############################################################################**++++++++++++++###*****************++++++++
-#############################################################################++++++++++++++++++*****************++++++++
+#############################################################################++++++++++++++++++******************++++++++
 ################################################################________*###+===++====+++++++++++****+++++++++++++===++++
 ################################################################____________=======----=++==++===++++++++++++++=========-
 ################################################################____________---=--===----===---====+=++++++++=====----===
@@ -198,7 +199,7 @@ art_bagian_4 = r"""
 ====-+########***################################################_________=++*+======-----------=++++====----+*+---------
 +=====########****################################################________===+**==+====----------=+++++===-----=*+-------
 +=====########*****################################################_______===++*+=++====----------=++++++===-------------
-+====+#*++###**################################################___________==+++**+========---------=+++++++====----------
++====+#*++###**################################################___________==+++**+========---------=+++++++++===--------
 +===+*+++*****################################################____________++++++*==========---------=+++++++++===--------
 """
 
@@ -206,93 +207,146 @@ def tampilkan_gui():
     root = tk.Tk()
     root.title("A Special Surprise For Bibub ❤️")
     
-    # Atur ukuran & Posisikan di Tengah Layar
-    lebar_window, tinggi_window = 950, 750
-    lebar_layar = root.winfo_screenwidth()
-    tinggi_layar = root.winfo_screenheight()
-    pos_x = int((lebar_layar / 2) - (lebar_window / 2))
-    pos_y = int((tinggi_layar / 2) - (tinggi_window / 2))
-    root.geometry(f"{lebar_window}x{tinggi_window}+{pos_x}+{pos_y}")
-    root.configure(bg="#0d1117")
+    # Otomatis Fullscreen Layar Penuh
+    root.attributes('-fullscreen', True)
+    root.configure(bg="#0b0e14")
 
-    # Header Judul Atas
+    # Tombol Keluar Darurat (Esc)
+    root.bind("<Escape>", lambda event: root.destroy())
+
+    # Header Atas
+    header_frame = tk.Frame(root, bg="#0b0e14")
+    header_frame.pack(fill=tk.X, pady=(20, 10))
+
     title_label = tk.Label(
-        root, 
+        header_frame, 
         text="✨ HAPPY BIRTHDAY BIBUB ✨", 
-        font=("Georgia", 16, "bold"), 
-        bg="#0d1117", 
-        fg="#ff7b72",
-        pady=10
+        font=("Georgia", 22, "bold"), 
+        bg="#0b0e14", 
+        fg="#ff7b72"
     )
     title_label.pack()
 
-    # Kotak Teks Tampilan ASCII Art
+    sub_title = tk.Label(
+        header_frame, 
+        text="Tekan tombol [ESC] di keyboard kapan saja untuk keluar", 
+        font=("Arial", 9, "italic"), 
+        bg="#0b0e14", 
+        fg="#484f58"
+    )
+    sub_title.pack(pady=2)
+
+    # Frame Utama Tampilan ASCII (Tengah)
+    main_frame = tk.Frame(root, bg="#0b0e14")
+    main_frame.pack(fill=tk.BOTH, expand=True, padx=40, pady=5)
+
     txt_area = scrolledtext.ScrolledText(
-        root, 
+        main_frame, 
         wrap=tk.NONE, 
         font=("Courier", 7, "bold"), 
         bg="#161b22", 
         fg="#79c0ff",
         insertbackground="white",
-        bd=2,
-        relief="groove"
+        bd=0,
+        highlightthickness=2,
+        highlightbackground="#30363d"
     )
-    txt_area.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
+    txt_area.pack(fill=tk.BOTH, expand=True)
 
-    # Label Status di Bawah
+    # Area Pesan & Permohonan Maaf
+    status_frame = tk.Frame(root, bg="#0b0e14", pady=10)
+    status_frame.pack(fill=tk.X)
+
     label_status = tk.Label(
-        root, 
+        status_frame, 
         text="⏳ Memuat kejutan khusus untukmu...", 
-        font=("Arial", 11, "italic"), 
-        bg="#0d1117", 
+        font=("Segoe UI", 12, "italic"), 
+        bg="#0b0e14", 
         fg="#d2a8ff",
-        justify="center",
-        pady=5
+        justify="center"
     )
     label_status.pack()
 
-    # Frame Tombol Pilihan (Awalnya tersembunyi biar fokus ke animasi)
-    btn_frame = tk.Frame(root, bg="#0d1117")
+    # Container Pilihan Ganda Mewah (Card Container)
+    card_container = tk.Frame(root, bg="#161b22", bd=1, relief="solid", highlightthickness=1, highlightbackground="#30363d")
 
+    # Efek Typing Text untuk Pesan Maaf
+    def ketik_teks_animasi(label_target, teks_lengkap, kecepatan=0.03, callback=None):
+        def _type():
+            label_target.config(text="")
+            buffer = ""
+            for char in teks_lengkap:
+                buffer += char
+                label_target.config(text=buffer)
+                time.sleep(kecepatan)
+            if callback:
+                callback()
+        threading.Thread(target=_type, daemon=True).start()
+
+    # Logika Jawaban Pilihan
     def jawab(pilihan):
         if pilihan in [1, 3]:
-            pesan_isi = (
+            # Sembunyikan Pilihan Ganda
+            card_container.pack_forget()
+            
+            # Tampilkan Jawaban dengan Efek Typing Mewah
+            pesan_maaf = (
                 "🎉 HAPPY BIRTHDAY YAAA BIBUB, MUAHHH 🎉\n\n"
                 "Aku minta maaf karna sebelumnya aku bener bener bikin kamu marah marah sampai sebegitunya,\n"
                 "Aku cuma bisa bikinin ini sebagai ganti dari hadiah ulang tahun kamu yang mendatang...\n\n"
                 "Sehat selalu dan maafin aku yaaa sayang, sama aku terus yaaa kita lewatin semua badai yang menerjang kita....!! ❤️✨"
             )
             if pilihan == 3:
-                pesan_isi = "✅ DENDA DITERIMA! SIAP KULINERAN SEPUASNYA! 🤝🧋\n\n" + pesan_isi
-                
-            messagebox.showinfo("Hadiah Buat Bibub ❤️", pesan_isi)
-            root.destroy()
+                pesan_maaf = "✅ DENDA DITERIMA! SIAP KULINERAN SEPUASNYA! 🤝🧋\n\n" + pesan_maaf
+
+            label_status.config(font=("Segoe UI", 13, "bold"), fg="#7ee787")
+            ketik_teks_animasi(label_status, pesan_maaf, kecepatan=0.025)
+
         else:
-            messagebox.showwarning(
-                "Ditolak Sistem! ❌", 
-                "❌ SYSTEM ERROR: Pilihan ini ditolak sistem!\n\nTolong pilih nomor 1 atau 3 aja biar kita bisa baikan yaaa bibub wkwkwk... 🙏🥺"
+            label_status.config(
+                text="❌ SYSTEM ERROR: Pilihan ini ditolak sistem!\nTolong pilih nomor 1 atau 3 aja biar kita bisa baikan yaaa bibub... 🙏🥺",
+                font=("Segoe UI", 11, "bold"),
+                fg="#f85149"
             )
 
-    # Buat tombol-tombol pilihan
-    btn1 = tk.Button(
-        btn_frame, text="1. Maafin yaaa ❤️", command=lambda: jawab(1), 
-        bg="#238636", fg="white", font=("Arial", 10, "bold"), padx=12, pady=6, cursor="hand2"
-    )
-    btn1.grid(row=0, column=0, padx=10)
+    # --- MEMBUAT CARD PILIHAN GANDA MEWAH ---
+    
+    # Sub-fungsi pembuat tombol berbentuk kartu
+    def buat_kartu_pilihan(parent, nomor, judul, deskripsi, warna_bg, cmd):
+        btn_card = tk.Button(
+            parent,
+            text=f"{nomor}. {judul}\n   {deskripsi}",
+            font=("Segoe UI", 10, "bold"),
+            bg=warna_bg,
+            fg="white",
+            activebackground="#2ea043",
+            activeforeground="white",
+            bd=0,
+            relief="flat",
+            justify="left",
+            padx=15,
+            pady=10,
+            cursor="hand2",
+            command=cmd
+        )
+        return btn_card
 
-    btn2 = tk.Button(
-        btn_frame, text="2. Gak mau maafin! 😡", command=lambda: jawab(2), 
-        bg="#da3633", fg="white", font=("Arial", 10, "bold"), padx=12, pady=6, cursor="hand2"
+    card1 = buat_kartu_pilihan(
+        card_container, "1", "Maafin Yaaa Sayang", "Sama-sama terus lewatin badai 🥺❤️", "#238636", lambda: jawab(1)
     )
-    btn2.grid(row=0, column=1, padx=10)
+    card1.grid(row=0, column=0, padx=10, pady=15)
 
-    btn3 = tk.Button(
-        btn_frame, text="3. Wajib Denda Seblak/Boba 🧋✨", command=lambda: jawab(3), 
-        bg="#238636", fg="white", font=("Arial", 10, "bold"), padx=12, pady=6, cursor="hand2"
+    card2 = buat_kartu_pilihan(
+        card_container, "2", "Gak Mau Maafin!", "Pokoknya masih marah banget! 😡", "#da3633", lambda: jawab(2)
     )
-    btn3.grid(row=0, column=2, padx=10)
+    card2.grid(row=0, column=1, padx=10, pady=15)
 
-    # --- FUNGSI EFEK SCROLL ANIMASI OTOMATIS ---
+    card3 = buat_kartu_pilihan(
+        card_container, "3", "Denda Boba / Seblak", "Boleh dimaafin tapi wajib kulineran! 🧋✨", "#1f6feb", lambda: jawab(3)
+    )
+    card3.grid(row=0, column=2, padx=10, pady=15)
+
+    # --- FUNGSI EFEK SCROLL ANIMASI ASCII SLOW-MOTION ---
     def mulai_animasi():
         full_ascii = (
             art_banner + "\n\n" +
@@ -305,20 +359,21 @@ def tampilkan_gui():
 
         for line in baris_list:
             txt_area.insert(tk.END, line + "\n")
-            txt_area.see(tk.END) # Otomatis scroll ikuti tulisan bawah
-            time.sleep(0.012)     # Kecepatan gambar bergulir
+            txt_area.see(tk.END) # Scroll otomatis
+            time.sleep(0.012)     # Kecepatan gulung gambar
 
         txt_area.configure(state='disabled') # Kunci area teks
         
-        # Setelah animasi selesai, ganti teks & munculkan tombol
-        label_status.config(
-            text="🚨 DETEKSI KESALAHAN SISTEM: PACAR LAGI NGAMBEK BERAT... 🚨\nSebab: Bikin marah-marah gara-gara telat...",
-            font=("Arial", 11, "bold"),
-            fg="#ff7b72"
-        )
-        btn_frame.pack(pady=10)
+        # Setelah animasi ASCII selesai, ketik pesan ngambek & buka Card Pilihan
+        pesan_ngambek = "🚨 DETEKSI KESALAHAN SISTEM: PACAR LAGI NGAMBEK BERAT... 🚨\nSebab: Bikin marah-marah gara-gara telat..."
+        
+        def munculkan_pilihan():
+            card_container.pack(pady=(0, 20))
 
-    # Jalankan animasi di thread terpisah biar jendela tidak nge-freeze
+        label_status.config(font=("Segoe UI", 11, "bold"), fg="#ff7b72")
+        ketik_teks_animasi(label_status, pesan_ngambek, kecepatan=0.03, callback=munculkan_pilihan)
+
+    # Jalankan animasi di background thread
     threading.Thread(target=mulai_animasi, daemon=True).start()
 
     root.mainloop()
