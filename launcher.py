@@ -2,6 +2,7 @@ import time
 import sys
 import os
 import random
+import threading
 import tkinter as tk
 from tkinter import scrolledtext, messagebox
 
@@ -44,7 +45,7 @@ art_bagian_1 = r"""
 ⠁⠀⠀⠀⠀⠀⢻⡿⣆⠀⠀⠀⠀⠀⠉⠉⠉⠻⠟⠋⠳⢿⣧⣿⣝⢻⡖⠶⢶⠤⢤⣤⣤⡤⠤⠶⢖⣺⣋⣭⣗⣯⣾⣴⠋⠉⠉⠁⠀⠀⠀⠀⠀⠀⠀⣠⡾⣼⡷⠀⠀⠀⠀⠀⠀
 ⠿⠛⠀⠀⠀⠀⠙⢿⡻⢦⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠳⠿⠿⢿⣿⣶⡶⢶⣻⣿⡿⠿⣿⡿⠃⠈⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣠⡴⢞⡽⠾⠏⠀⠀⠀⠀⠀⠀⠶
 ⠀⠀⠀⠀⠀⠀⠀⠀⠀⠉⠙⢷⣭⣳⠦⣄⣀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠀⠀⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣀⣀⡤⢶⣛⣹⠿⠟⠋⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀
-⣤⣤⡼⠿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⠴⠾⢯⣝⣿⣶⣤⠤⠤⢤⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣠⣤⠤⣤⣤⢴⠚⣛⣫⣭⡶⠛⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⣤⣤⣤⣀⣤
+⣤⣤⡼⠿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠈⠳⠴⠾⢯⣝⣿⣶⣤⠤⠤⢤⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣀⣠⣤⠤⣤⣤⠚⣛⣫⣭⡶⠛⠛⠋⠁⠀⠀⠀⠀⠀⠀⠀⠀⣤⣤⣤⣀⣤
 ⠀⢿⣀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠉⠛⠓⠲⠦⠾⠻⢿⣯⡽⠿⢿⣭⡽⠛⠳⠶⠶⠚⠉⠉⠛⠉⠉⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢈⣩⡿⠃⠀
 ⠀⠀⠙⠓⢶⣶⣤⣤⣶⡿⠆⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢀⣤⣤⣀⠀⠀⠀⠀⣀⣠⣴⡶⠛⠉⠀⠀⠀
 ⠀⠀⠀⠀⠀⠀⠀⠘⢿⣤⣀⣀⣀⣀⣀⣀⣠⣶⣿⠟⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠘⠻⢶⣿⠶⠶⠿⠟⠛⠉⠁⠀⠀⠀⠀⠀⠀
@@ -88,7 +89,7 @@ art_bagian_3 = r"""
 ⠀⢠⠔⠁⠁⠀⠘⢗⢿⡏⢾⢹⠃⠰⠪⠉⡇⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣬⣡⣀⠉⠙⠛⠓⠛⠿⣧⣷⣫⣻⵵⡻⠻⠯⢾⣿⣲⣶⣴⢞⣠⡄⢸⣇⡻⡾⣝⣳⠼
 ⠀⠀⠿⣠⡀⢆⠀⠘⣖⠄⣢⡡⢦⠗⠂⠌⠑⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣷⣟⣎⣷⢖⡄⡤⣀⠀⠀⠈⠙⠁⠀⠠⠼⡁⡵⢣⠏⡞⠇⠋⠓⠸⣽⡿⣽⣳⢯⣟
 ⠀⠀⢸⡿⠀⡀⠀⠀⠈⠋⣮⢞⠛⣉⡁⢐⠪⡉⢀⠢⡀⠀⠀⠀⠀⠀⠀⠀⠀⢸⣿⣿⣿⣿⣟⣯⢄⢯⣚⣇⡱⢑⡳⣆⡄⠀⠐⠡⣀⡅⠃⢩⠂⠉⠠⠠⡄⡌⠻⣿⢷⣯⣻⣼
-⠀⠘⣈⡧⠄⢗⠀⠀⠠⡄⠈⠛⠵⣎⣙⠷⢳⣱⡢⣽⠁⠀⠀⢀⡀⠀⠀⠀⠀⢨⣿⣿⣿⣿⣿⣿⣿⣿⣨⢎⣾⡰⢮⣽⢰⢸⡶⡢⡀⠀⠑⠛⠀⠀⢺⡇⡸⠬⣿⣮⠻⣿⣿⣿
+⠀⠘⣈⡧⠄⢗⠀⠀⠠⡄⠈⠛⠵⣎⣙⠷⢳⣱⡢⣽⠁⠀⠀⢀⡀⠀⠀⠀⠀⢨⣿⣿⣿⣿⣿⣿⣿⣿⣨⢎⣾⡰⢮⣽⢸⡶⡢⡀⠀⠑⠛⠀⠀⢺⡇⡸⠬⣿⣮⠻⣿⣿⣿
 ⠀⠘⠁⡄⣆⡷⠈⢄⠐⠄⠀⠀⠀⠈⠈⠛⠻⢟⠏⢁⣀⢂⡵⢽⡧⠀⠀⠤⢋⢈⣿⣿⢯⡛⠛⠿⢯⣧⣻⡟⢴⣁⡊⢵⣱⠠⡭⢟⠑⢠⡀⣰⠂⠀⣰⢁⣆⡹⣿⣷⡝⢿⣾
 ⠀⣀⢐⡦⠺⢷⣾⢿⣆⢫⠐⠒⠀⠀⠀⠀⠀⠀⠀⠀⠹⠛⠛⠳⠣⢡⣞⠲⣞⢌⣿⣿⣿⣷⣯⣄⣀⡈⠁⠛⠶⢌⢳⡼⡗⠫⠑⣃⠬⣒⣰⠇⠁⣼⠀⢃⣾⣩⣌⣞⢯⣿⠎⢳
 ⠐⠀⢻⡅⠠⡁⠛⣶⢿⡄⠀⠀⠀⠀⠀⠀⠀⠄⠠⠄⡄⠐⢀⢀⡀⣀⠀⠀⠀⠈⣿⣿⣿⣿⣿⣿⣿⡏⣶⢴⡤⣄⠉⠚⠥⠯⠊⣠⡲⣠⠏⠀⠀⠈⠁⣿⣇⠽⣳⣮⡓⢿⣻⡄
@@ -96,7 +97,7 @@ art_bagian_3 = r"""
 ⠀⢛⣴⡄⠀⠀⠀⠙⠀⠀⠀⠄⠀⠀⠀⠀⠀⢂⢠⣟⣿⣇⣷⢆⠳⡀⠀⠀⠁⢰⣿⣿⣿⣿⣿⣿⣿⣿⣿⣾⡿⣿⣭⡶⡿⣚⢟⢦⢠⠀⠀⠀⠀⠀⣼⣶⣇⢆⣹⣿⡻⣤⠙⣧
 ⠀⢯⣾⠄⠀⡄⠀⠀⠀⠀⠀⠀⢄⠀⠀⠀⠀⠠⢁⣄⣊⢙⠲⣏⠑⢀⠐⠠⠠⢺⣿⣯⣿⣏⡿⢿⣿⣿⣿⣿⣻⣯⣷⣷⣿⡓⣻⣼⢻⠂⠀⠀⠀⠀⣽⣿⣷⣊⣿⣷⣿⣼⡙⡼
 ⠀⠲⣈⡏⠄⠀⡀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠐⠮⠬⡐⣵⠘⢆⠀⠀⠀⠄⣾⣿⣿⣿⣿⣿⣟⣆⣉⡛⠻⠿⣷⣾⣋⠾⣑⣛⣫⠏⠀⠀⠀⠀⠸⣿⣿⣧⣿⣿⣿⡿⠏⡐⢱
-⠐⢾⢮⡹⠁⡀⠠⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠁⠀⡁⠀⠄⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣤⡠⡀⠉⠛⠃⠫⣮⡓⠀⠀⠀⠀⢰⣿⣿⣿⣿⢋⠉⠐⠀⠀⡃
+⠐⢾⢮⡹⠁⡀⠠⠄⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠈⠀⠁⠀⡁⠀⠄⢀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣦⣤⡠⡀⠉⠛⠃⫮⣮⡓⠀⠀⠀⠀⢰⣿⣿⣿⣿⢋⠉⠐⠀⠀⡃
 ⠀⡀⢤⠌⣦⡐⣄⡀⠐⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠁⠀⡱⠀⠀⠁⠒⢲⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣟⠮⣤⣀⠀⠀⠀⢂⠀⠀⡤⠞⢿⣿⣿⣇⠀⠀⠀⠀⠀⠀
 ⠀⢨⡄⢹⣾⢳⢹⠘⠂⠀⠀⠂⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⢺⣿⣿⣿⣿⣿⣿⣿⣿⣿⣽⣿⣯⣶⣿⣿⡟⣾⣵⢣⠀⣴⠁⠋⢡⢠⣾⣿⠛⠁⠀⠀⠀⠀⠀⢠
 ⠀⠀⠫⠒⠪⣳⣙⢷⡇⠱⠶⠀⠀⠀⠠⢀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⠀⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣿⣳⣟⣿⢖⣾⣷⡮⣾⠀⠀⢀⣤⣦⣜⣻⢯⣳⠀⠀⠀⠀⠀⢀⡾
@@ -181,7 +182,7 @@ art_bagian_4 = r"""
 ###################################################+++===+*####################****+++++***##**************++++++++++++++
 ####################################################*+*#######################*****+++++++**###**************+**+++++++++
 #############################################################################**++++++++++++++###*****************++++++++
-#############################################################################++++++++++++++++++******************++++++++
+#############################################################################++++++++++++++++++*****************++++++++
 ################################################################________*###+===++====+++++++++++****+++++++++++++===++++
 ################################################################____________=======----=++==++===++++++++++++++=========-
 ################################################################____________---=--===----===---====+=++++++++=====----===
@@ -201,49 +202,58 @@ art_bagian_4 = r"""
 +===+*+++*****################################################____________++++++*==========---------=+++++++++===--------
 """
 
-# --- FUNGSI APLIKASI TIKINTER GUI ---
-
 def tampilkan_gui():
     root = tk.Tk()
-    root.title("Surprise For Bibub! ❤️")
-    root.geometry("900x700")
+    root.title("A Special Surprise For Bibub ❤️")
+    
+    # Atur ukuran & Posisikan di Tengah Layar
+    lebar_window, tinggi_window = 950, 750
+    lebar_layar = root.winfo_screenwidth()
+    tinggi_layar = root.winfo_screenheight()
+    pos_x = int((lebar_layar / 2) - (lebar_window / 2))
+    pos_y = int((tinggi_layar / 2) - (tinggi_window / 2))
+    root.geometry(f"{lebar_window}x{tinggi_window}+{pos_x}+{pos_y}")
     root.configure(bg="#0d1117")
 
-    # Kotak Teks Scrollable untuk Menampung Semua ASCII Art Foto
+    # Header Judul Atas
+    title_label = tk.Label(
+        root, 
+        text="✨ HAPPY BIRTHDAY BIBUB ✨", 
+        font=("Georgia", 16, "bold"), 
+        bg="#0d1117", 
+        fg="#ff7b72",
+        pady=10
+    )
+    title_label.pack()
+
+    # Kotak Teks Tampilan ASCII Art
     txt_area = scrolledtext.ScrolledText(
         root, 
         wrap=tk.NONE, 
-        font=("Courier", 7), 
-        bg="#0d1117", 
-        fg="#58a6ff",
-        insertbackground="white"
+        font=("Courier", 7, "bold"), 
+        bg="#161b22", 
+        fg="#79c0ff",
+        insertbackground="white",
+        bd=2,
+        relief="groove"
     )
-    txt_area.pack(fill=tk.BOTH, expand=True, padx=15, pady=15)
+    txt_area.pack(fill=tk.BOTH, expand=True, padx=20, pady=10)
 
-    # Penggabungan Seluruh ASCII Art
-    full_ascii = (
-        art_banner + "\n\n" +
-        art_bagian_1 + "\n\n" +
-        art_bagian_2 + "\n\n" +
-        art_bagian_3 + "\n\n" +
-        art_bagian_4
-    )
-    
-    txt_area.insert(tk.INSERT, full_ascii)
-    txt_area.configure(state='disabled')  # Kunci teks biar gak bisa terhapus
-
-    # Pesan Teks
+    # Label Status di Bawah
     label_status = tk.Label(
         root, 
-        text="🚨 DETEKSI KESALAHAN SISTEM: PACAR LAGI NGAMBEK BERAT... 🚨\nSebab: Bikin marah-marah sampai sebegitunya gara-gara telat...", 
-        font=("Arial", 11, "bold"), 
+        text="⏳ Memuat kejutan khusus untukmu...", 
+        font=("Arial", 11, "italic"), 
         bg="#0d1117", 
-        fg="#ff7b72",
-        justify="center"
+        fg="#d2a8ff",
+        justify="center",
+        pady=5
     )
-    label_status.pack(pady=5)
+    label_status.pack()
 
-    # Logika Tombol Jawaban
+    # Frame Tombol Pilihan (Awalnya tersembunyi biar fokus ke animasi)
+    btn_frame = tk.Frame(root, bg="#0d1117")
+
     def jawab(pilihan):
         if pilihan in [1, 3]:
             pesan_isi = (
@@ -263,45 +273,53 @@ def tampilkan_gui():
                 "❌ SYSTEM ERROR: Pilihan ini ditolak sistem!\n\nTolong pilih nomor 1 atau 3 aja biar kita bisa baikan yaaa bibub wkwkwk... 🙏🥺"
             )
 
-    # Frame Tombol Pilihan
-    btn_frame = tk.Frame(root, bg="#0d1117")
-    btn_frame.pack(pady=10)
-
+    # Buat tombol-tombol pilihan
     btn1 = tk.Button(
-        btn_frame, 
-        text="1. Maafin yaaa ❤️", 
-        command=lambda: jawab(1), 
-        bg="#238636", 
-        fg="white", 
-        font=("Arial", 10, "bold"),
-        padx=10,
-        pady=5
+        btn_frame, text="1. Maafin yaaa ❤️", command=lambda: jawab(1), 
+        bg="#238636", fg="white", font=("Arial", 10, "bold"), padx=12, pady=6, cursor="hand2"
     )
-    btn1.grid(row=0, column=0, padx=8)
+    btn1.grid(row=0, column=0, padx=10)
 
     btn2 = tk.Button(
-        btn_frame, 
-        text="2. Gak mau maafin! 😡", 
-        command=lambda: jawab(2), 
-        bg="#da3633", 
-        fg="white", 
-        font=("Arial", 10, "bold"),
-        padx=10,
-        pady=5
+        btn_frame, text="2. Gak mau maafin! 😡", command=lambda: jawab(2), 
+        bg="#da3633", fg="white", font=("Arial", 10, "bold"), padx=12, pady=6, cursor="hand2"
     )
-    btn2.grid(row=0, column=1, padx=8)
+    btn2.grid(row=0, column=1, padx=10)
 
     btn3 = tk.Button(
-        btn_frame, 
-        text="3. Wajib Denda Seblak/Boba 🧋✨", 
-        command=lambda: jawab(3), 
-        bg="#238636", 
-        fg="white", 
-        font=("Arial", 10, "bold"),
-        padx=10,
-        pady=5
+        btn_frame, text="3. Wajib Denda Seblak/Boba 🧋✨", command=lambda: jawab(3), 
+        bg="#238636", fg="white", font=("Arial", 10, "bold"), padx=12, pady=6, cursor="hand2"
     )
-    btn3.grid(row=0, column=2, padx=8)
+    btn3.grid(row=0, column=2, padx=10)
+
+    # --- FUNGSI EFEK SCROLL ANIMASI OTOMATIS ---
+    def mulai_animasi():
+        full_ascii = (
+            art_banner + "\n\n" +
+            art_bagian_1 + "\n\n" +
+            art_bagian_2 + "\n\n" +
+            art_bagian_3 + "\n\n" +
+            art_bagian_4
+        )
+        baris_list = full_ascii.split("\n")
+
+        for line in baris_list:
+            txt_area.insert(tk.END, line + "\n")
+            txt_area.see(tk.END) # Otomatis scroll ikuti tulisan bawah
+            time.sleep(0.012)     # Kecepatan gambar bergulir
+
+        txt_area.configure(state='disabled') # Kunci area teks
+        
+        # Setelah animasi selesai, ganti teks & munculkan tombol
+        label_status.config(
+            text="🚨 DETEKSI KESALAHAN SISTEM: PACAR LAGI NGAMBEK BERAT... 🚨\nSebab: Bikin marah-marah gara-gara telat...",
+            font=("Arial", 11, "bold"),
+            fg="#ff7b72"
+        )
+        btn_frame.pack(pady=10)
+
+    # Jalankan animasi di thread terpisah biar jendela tidak nge-freeze
+    threading.Thread(target=mulai_animasi, daemon=True).start()
 
     root.mainloop()
 
